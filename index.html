@@ -25,27 +25,37 @@
       A super simple PWA (<a
         href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps"
         target="_blank"
-        noreferrer=""
-        noopener=""
+        rel="noopener noreferrer nofollow"
         >progressive web app</a
       >) that adds an option for
       <a
         href="https://news.ycombinator.com/"
         target="_blank"
-        noreferrer=""
-        noopener=""
+        rel="noopener noreferrer nofollow"
         >Hacker News</a
       >
       to the sharing menu in your Android device.
     </p>
+
+    <a
+      href="https://user-images.githubusercontent.com/3490745/189770958-7436a8c7-e6ae-4d2a-beaa-333d6f14d1ba.png"
+      target="_blank"
+      rel="noopener noreferrer nofollow"
+      style="margin: 1rem 0;"
+    >
+      <img
+        src="https://user-images.githubusercontent.com/3490745/189770958-7436a8c7-e6ae-4d2a-beaa-333d6f14d1ba.png"
+        alt="Demonstration of how the sharing UX looks like on Chrome for Android"
+        style="width: 80vw; max-width: 830px;"
+      />
+    </a>
 
     <p>
       In other words, it's a handy mobile alternative for the
       <a
         href="https://news.ycombinator.com/bookmarklet.html"
         target="_blank"
-        noreferrer=""
-        noopener=""
+        rel="noopener noreferrer nofollow"
         >official HN bookmarklet</a
       >. That bookmarklet doesn't work in all mobile browsers, at least not in
       Chrome for Android.
@@ -57,16 +67,14 @@
       <a
         href="https://developer.mozilla.org/en-US/docs/Web/Manifest"
         target="_blank"
-        noreferrer=""
-        noopener=""
+        rel="noopener noreferrer nofollow"
         >manifest</a
       >, which as of September 2022 is only supported by Chrome and Edge. Check
-      the up-to-date browser support information at
+      the up-to-date browser support info at
       <a
         href="https://caniuse.com/mdn-html_manifest_share_target"
         target="_blank"
-        noreferrer=""
-        noopener=""
+        rel="noopener noreferrer nofollow"
       >
         caniuse.com</a
       >.
@@ -78,8 +86,7 @@
       <a
         href="https://github.com/samulisuomi/share-to-hn-pwa"
         target="_blank"
-        noreferrer=""
-        noopener=""
+        rel="noopener noreferrer nofollow"
         >GitHub
       </a>
     </p>
@@ -144,8 +151,24 @@
       text-align: center;
       padding: 2rem;
       margin: 0 auto;
-      max-width: 512px;
       line-height: 1.33334;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1,
+    hr,
+    p {
+      max-width: 512px;
+    }
+
+    p {
+      margin: 1rem 0;
+    }
+
+    hr {
+      width: 100%;
     }
   </style>
 </html>
