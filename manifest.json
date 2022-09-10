@@ -1,6 +1,6 @@
 {
-  "name": "Post to HN",
-  "short_name": "Post to HN",
+  "name": "Share to HN",
+  "short_name": "Share to HN",
   "start_url": "https://samulisuomi.github.io/post-to-hn-pwa/",
   "scope": "https://samulisuomi.github.io/post-to-hn-pwa/",
   "icons": [
