@@ -22,12 +22,15 @@
   <body>
     <h1 style="color: #ff6600">Post to HN</h1>
 
-    <p>A super simple PWA that you can install to your mobile device and then share links from your apps to HN.</p>
+    <p>
+      A super simple PWA that you can install to your mobile device and then
+      share links from your apps to HN.
+    </p>
 
     <script>
       window.addEventListener("load", () => {
         registerSW();
-	readParams();
+        readParams();
       });
 
       // Register the Service Worker
@@ -41,20 +44,32 @@
         }
       }
 
-      function readParams() {  
+      function readParams() {
         const parsedUrl = new URL(window.location);
 
         if (!parsedUrl.search) return;
 
-        const title = parsedUrl.searchParams.get("title");
-        const text = parsedUrl.searchParams.get("text");
-        const url = parsedUrl.searchParams.get("url");
-      
-        alert([
-          `Title shared: ${title}`,
-          `Text shared: ${text}`,
-          `URL shared: ${url}`
-        ].join('\n'))
+        alert("parsedUrl.search", parsedUrl.search)
+
+        const titleParam = parsedUrl.searchParams.get("title")?.trim();
+        const textParam = parsedUrl.searchParams.get("text")?.trim();
+        const urlParam = parsedUrl.searchParams.get("url")?.trim();
+
+        const url = isValidUrl(textParam) ? textParam : isValidUrl(urlParam) ? urlParam : null
+
+        window.location =
+          "https://news.ycombinator.com/submitlink?u=" +
+          encodeURIComponent(url) +
+          "&t=" +
+          encodeURIComponent(titleParam);
+      }
+
+      function isValidUrl(urlString) {
+        try {
+          return Boolean(new URL(urlString));
+        } catch (e) {
+          return false;
+        }
       }
     </script>
   </body>
