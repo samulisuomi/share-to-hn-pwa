@@ -27,6 +27,7 @@
     <script>
       window.addEventListener("load", () => {
         registerSW();
+	readParams();
       });
 
       // Register the Service Worker
@@ -38,6 +39,22 @@
             console.log("SW registration failed");
           }
         }
+      }
+
+      function readParams() {  
+        const parsedUrl = new URL(window.location);
+
+        if (!parsedUrl.search) return;
+
+        const title = parsedUrl.searchParams.get("title");
+        const text = parsedUrl.searchParams.get("text");
+        const url = parsedUrl.searchParams.get("url");
+      
+        alert([
+          `Title shared: ${title}`,
+          `Text shared: ${text}`,
+          `URL shared: ${url}`
+        ].join('\n'))
       }
     </script>
   </body>

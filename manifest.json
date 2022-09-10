@@ -1,8 +1,8 @@
 {
   "name": "Post to HN",
   "short_name": "Post to HN",
-  "start_url": ".",
-  "scope": ".",
+  "start_url": "https://samulisuomi.github.io/post-to-hn-pwa/",
+  "scope": "https://samulisuomi.github.io/post-to-hn-pwa/",
   "icons": [
     {
       "src": "android-chrome-192x192.png",
@@ -17,5 +17,16 @@
   ],
   "theme_color": "#ff6600",
   "background_color": "#ffffff",
-  "display": "standalone"
+  "display": "standalone",
+  "share_target": {
+    "action": "/post-to-hn-pwa/",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params":
+    {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  }
 }
