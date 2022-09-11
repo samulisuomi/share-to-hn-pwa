@@ -41,12 +41,12 @@
       href="https://user-images.githubusercontent.com/3490745/189770958-7436a8c7-e6ae-4d2a-beaa-333d6f14d1ba.png"
       target="_blank"
       rel="noopener noreferrer nofollow"
-      style="margin: 1rem 0;"
+      style="margin: 1rem 0"
     >
       <img
         src="https://user-images.githubusercontent.com/3490745/189770958-7436a8c7-e6ae-4d2a-beaa-333d6f14d1ba.png"
         alt="Demonstration of how the sharing UX looks like on Chrome for Android"
-        style="width: 80vw; max-width: 830px;"
+        style="width: 80vw; max-width: 830px"
       />
     </a>
 
@@ -93,46 +93,64 @@
 
     <script>
       window.addEventListener("load", () => {
-        registerSW();
+        registerServiceWorker();
       });
 
       window.addEventListener("DOMContentLoaded", () => {
-        readParams();
+        const args = parseArgs();
+        if (!args) return;
+
+        redirectToHnSubmitPage({
+          title: args.title,
+          url: args.url,
+        });
       });
 
-      // Register the Service Worker
-      async function registerSW() {
+      async function registerServiceWorker() {
         if ("serviceWorker" in navigator) {
           try {
             await navigator.serviceWorker.register("serviceworker.js");
           } catch (e) {
-            console.log("SW registration failed");
+            console.error("Could not register the service worker", e);
           }
         }
       }
 
-      function readParams() {
+      function parseArgs() {
         const parsedUrl = new URL(window.location);
 
-        if (!parsedUrl.search) return;
+        if (!parsedUrl.search) return null;
 
         const titleParam = parsedUrl.searchParams.get("title")?.trim();
         const textParam = parsedUrl.searchParams.get("text")?.trim();
         const urlParam = parsedUrl.searchParams.get("url")?.trim();
 
-        const possibleUrlInTextParam = textParam.split("http")[1]
-          ? `http${textParam.split("http")[1]}`
-          : null;
+        const possibleUrlInTitleParam =
+          parseUrlLikeStringIfPossible(titleParam);
+        const possibleUrlInTextParam = parseUrlLikeStringIfPossible(textParam);
 
-        const url = isValidUrl(possibleUrlInTextParam)
-          ? possibleUrlInTextParam
-          : isValidUrl(urlParam)
-          ? urlParam
-          : null;
+        const url = [
+          possibleUrlInTitleParam,
+          possibleUrlInTextParam,
+          urlParam,
+        ].find(isValidUrl);
 
-        window.location = `https://news.ycombinator.com/submitlink?u=${encodeURIComponent(
-          url || ""
-        )}&t=${encodeURIComponent(titleParam || "")}`;
+        return { title: titleParam || "", url: url || "" };
+      }
+
+      function redirectToHnSubmitPage({ title, url }) {
+        const encodedTitle = encodeURIComponent(title);
+        const encodedUrl = encodeURIComponent(url);
+
+        window.location = `https://news.ycombinator.com/submitlink?t=${encodedTitle}&u=${encodedUrl}`;
+      }
+
+      function parseUrlLikeStringIfPossible(string) {
+        let parts = string.split("http");
+        if (!parts[1]) return null;
+
+        parts = parts[1].split(" ");
+        return `http${parts[0]}`;
       }
 
       function isValidUrl(urlString) {
@@ -147,14 +165,14 @@
 
   <style type="text/css">
     body {
-      font-family: Verdana, Geneva, sans-serif;
-      text-align: center;
-      padding: 2rem;
-      margin: 0 auto;
-      line-height: 1.33334;
+      align-items: center;
       display: flex;
       flex-direction: column;
-      align-items: center;
+      font-family: Verdana, Geneva, sans-serif;
+      line-height: 1.33334;
+      margin: 0 auto;
+      padding: 2rem;
+      text-align: center;
     }
 
     h1,
