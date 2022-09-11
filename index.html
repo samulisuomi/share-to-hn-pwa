@@ -21,6 +21,61 @@
   <body>
     <h1 style="color: #ff6600">Share to HN</h1>
 
+    <p
+      class="ready-to-share"
+      style="
+        font-weight: bold;
+        font-size: 1.25em;
+        color: #3a3b40;
+        display: none;
+      "
+    >
+      ✅ Ready to share!
+    </p>
+
+    <!-- Adapted from https://samherbert.net/svg-loaders/svg-loaders/oval.svg -->
+    <div
+      class="loader"
+      style="
+        align-items: flex-start;
+        background: rgb(255 255 255 / 90%);
+        bottom: 0;
+        display: none;
+        justify-content: center;
+        left: 0;
+        padding: 10rem;
+        position: fixed;
+        right: 0;
+        top: 0;
+      "
+    >
+      <svg
+        aria-busy="true"
+        aria-label="Redirecting to HN..."
+        xmlns="http://www.w3.org/2000/svg"
+        width="38"
+        height="38"
+        viewBox="0 0 38 38"
+        stroke="#000"
+      >
+        <g fill="none" fill-rule="evenodd">
+          <g transform="translate(1 1)" stroke-width="2">
+            <circle stroke-opacity=".5" cx="18" cy="18" r="18"></circle>
+            <path d="M36 18c0-9.94-8.06-18-18-18">
+              <animateTransform
+                attributeName="transform"
+                type="rotate"
+                from="0 18 18"
+                to="360 18 18"
+                dur="1s"
+                repeatCount="indefinite"
+              ></animateTransform>
+            </path>
+          </g>
+        </g>
+      </svg>
+    </div>
+
     <p>
       A super simple PWA (<a
         href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps"
@@ -57,8 +112,9 @@
         target="_blank"
         rel="noopener noreferrer nofollow"
         >official HN bookmarklet</a
-      > for us who often browse HN on their phone. That bookmarklet doesn't work in all mobile browsers, at least not in
-      Chrome for Android.
+      >
+      for us who often browse HN on their phone. That bookmarklet doesn't work
+      in all mobile browsers, at least not in Chrome for Android.
     </p>
 
     <p>
@@ -92,14 +148,28 @@
     </p>
 
     <script>
-      window.addEventListener("load", () => {
+      window.addEventListener('load', () => {
         registerServiceWorker();
       });
 
-      window.addEventListener("DOMContentLoaded", () => {
-        const args = parseArgs();
-        if (!args) return;
+      window.addEventListener('DOMContentLoaded', () => {
+        const pwaUrl = window.location;
+        const isInstalled =
+          window.matchMedia('(display-mode: standalone)').matches;
 
+        if (isInstalled) {
+          pwaUrl.search
+            ? document
+                .querySelector('.loader')
+                .style.setProperty('display', 'flex')
+            : document
+                .querySelector('.ready-to-share')
+                .style.setProperty('display', 'block');
+        }
+
+        if (!pwaUrl.search) return;
+
+        const args = parseArgs(pwaUrl);
         redirectToHnSubmitPage({
           title: args.title,
           url: args.url,
@@ -107,23 +177,21 @@
       });
 
       async function registerServiceWorker() {
-        if ("serviceWorker" in navigator) {
+        if ('serviceWorker' in navigator) {
           try {
-            await navigator.serviceWorker.register("serviceworker.js");
+            await navigator.serviceWorker.register('serviceworker.js');
           } catch (e) {
-            console.error("Could not register the service worker", e);
+            console.error('Could not register the service worker', e);
           }
         }
       }
 
-      function parseArgs() {
-        const parsedUrl = new URL(window.location);
+      function parseArgs(pwaUrlString) {
+        const parsedUrl = new URL(pwaUrlString);
 
-        if (!parsedUrl.search) return null;
-
-        const titleParam = parsedUrl.searchParams.get("title")?.trim();
-        const textParam = parsedUrl.searchParams.get("text")?.trim();
-        const urlParam = parsedUrl.searchParams.get("url")?.trim();
+        const titleParam = parsedUrl.searchParams.get('title')?.trim();
+        const textParam = parsedUrl.searchParams.get('text')?.trim();
+        const urlParam = parsedUrl.searchParams.get('url')?.trim();
 
         const possibleUrlInTitleParam =
           parseUrlLikeStringIfPossible(titleParam);
@@ -135,7 +203,7 @@
           urlParam,
         ].find(isValidUrl);
 
-        return { title: titleParam || "", url: url || "" };
+        return { title: titleParam || '', url: url || '' };
       }
 
       function redirectToHnSubmitPage({ title, url }) {
@@ -146,10 +214,10 @@
       }
 
       function parseUrlLikeStringIfPossible(string) {
-        let parts = string.split("http");
+        let parts = string.split('http');
         if (!parts[1]) return null;
 
-        parts = parts[1].split(" ");
+        parts = parts[1].split(' ');
         return `http${parts[0]}`;
       }
 
