@@ -4,6 +4,6 @@ A super simple PWA ([progressive web application](https://developer.mozilla.org/
 
 ![Demonstration of how the sharing UX looks like on Chrome for Android](https://user-images.githubusercontent.com/3490745/189841748-20040850-0043-4ebf-bb8e-ad8750652777.png)
 
-In other words, it's a handy mobile alternative for the [official HN bookmarklet](https://news.ycombinator.com/bookmarklet.html). That bookmarklet doesn't work in all mobile browsers, at least not in Chrome for Android.
+In other words, it's a handy mobile alternative for the [official HN bookmarklet](https://news.ycombinator.com/bookmarklet.html) for us who often browse HN on their phone. That bookmarklet doesn't work in all mobile browsers, at least not in Chrome for Android.
 
 ⚠️ The PWA utilizes the experimental `share_target` attribute in the [manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest), which as of September 2022 is only supported by Chrome and Edge. Check the up-to-date browser support info at [caniuse.com](https://caniuse.com/mdn-html_manifest_share_target).
