@@ -4,10 +4,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta
+      property="og:description"
+      content="A simple PWA (progressive web app) that adds an option for Hacker News in the sharing menu of your Android device."
+    />
+    <meta
+      property="og:image"
+      content="https://user-images.githubusercontent.com/3490745/189866298-62ebab14-06b4-4a72-b649-ebc42398a1f2.png"
+    />
 
     <title>
-      Share to HN – A PWA that gives you a mobile sharing menu item for Hacker
-      News
+      Share to HN – A PWA that gives you a sharing menu option for Hacker News
     </title>
 
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
@@ -19,7 +26,16 @@
   </head>
 
   <body>
-    <h1 style="color: #ff6600">Share to HN</h1>
+    <h1
+      style="
+        color: #ff6600;
+        font-size: clamp(2rem, 5vw, 4rem);
+        margin-bottom: 0.5em;
+        margin-top: 0.5em;
+      "
+    >
+      Share to HN
+    </h1>
 
     <div
       class="loader"
@@ -42,7 +58,7 @@
     </div>
 
     <p>
-      A super simple PWA (<a
+      A simple PWA (<a
         href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps"
         target="_blank"
         rel="noopener noreferrer nofollow"
@@ -54,30 +70,45 @@
         rel="noopener noreferrer nofollow"
         >Hacker News</a
       >
-      to the sharing menu in your Android device.
+      in the sharing menu of your Android device.
     </p>
 
-    <p
+    <div
       class="ready-to-share"
-      style="font-weight: bold; font-size: 3rem; color: #3a3b40; display: none"
+      style="
+        align-items: center;
+        display: none;
+        flex-wrap: wrap;
+        font-size: clamp(3rem, 5vw, 5rem);
+        font-weight: bold;
+        gap: 0.25em;
+        justify-content: center;
+        margin-bottom: 0.5em;
+        margin-top: 0.5em;
+      "
     >
-      ✅ Ready to share!
-    </p>
+      <span
+        style="height: 1em; line-height: 1; font-size: 1.5em; color: #60c35f"
+        >✓</span
+      >
+      <span style="color: #3a3b40; line-height: 1">Ready to share!</span>
+    </div>
 
-    <a
-      href="https://user-images.githubusercontent.com/3490745/189866298-62ebab14-06b4-4a72-b649-ebc42398a1f2.png"
-      target="_blank"
-      rel="noopener noreferrer nofollow"
-      style="margin: 1rem 0"
-    >
+    <div style="overflow: auto; max-width: 100vw">
       <img
         src="https://user-images.githubusercontent.com/3490745/189866298-62ebab14-06b4-4a72-b649-ebc42398a1f2.png"
         alt="Demonstration of how the sharing UX looks like on Chrome for Android"
-        style="width: 80vw; max-width: 830px"
+        style="
+          width: 80vw;
+          min-width: calc(3320px / 4);
+          max-width: calc(3320px / 2);
+          margin-left: 0.5rem;
+          margin-right: 0.5rem;
+        "
       />
-    </a>
+    </div>
 
-    <p>
+    <p style="text-align: left">
       In other words, it's a handy mobile alternative for the
       <a
         href="https://news.ycombinator.com/bookmarklet.html"
@@ -86,10 +117,11 @@
         >official HN bookmarklet</a
       >
       for us who often browse HN on their phone. That bookmarklet doesn't work
-      in all mobile browsers, at least not in Chrome for Android.
+      in all mobile browsers, at least not in Chrome for Android. Furthermore,
+      this works from any app, not just in the browser.
     </p>
 
-    <p>
+    <p style="text-align: left">
       ⚠️ The PWA utilizes the experimental <code>share_target</code> attribute
       in the
       <a
@@ -126,8 +158,9 @@
 
       window.addEventListener('DOMContentLoaded', () => {
         const pwaUrl = window.location;
-        const isInstalled =
-          window.matchMedia('(display-mode: standalone)').matches;
+        const isInstalled = window.matchMedia(
+          '(display-mode: standalone)'
+        ).matches;
 
         if (isInstalled) {
           pwaUrl.search
@@ -136,7 +169,7 @@
                 .style.setProperty('display', 'flex')
             : document
                 .querySelector('.ready-to-share')
-                .style.setProperty('display', 'block');
+                .style.setProperty('display', 'flex');
         }
 
         if (!pwaUrl.search) return;
@@ -161,9 +194,9 @@
       function parseArgs(pwaUrlString) {
         const parsedUrl = new URL(pwaUrlString);
 
-        const titleParam = parsedUrl.searchParams.get('title')?.trim();
-        const textParam = parsedUrl.searchParams.get('text')?.trim();
-        const urlParam = parsedUrl.searchParams.get('url')?.trim();
+        const titleParam = parsedUrl.searchParams.get('title')?.trim() || '';
+        const textParam = parsedUrl.searchParams.get('text')?.trim() || '';
+        const urlParam = parsedUrl.searchParams.get('url')?.trim() || '';
 
         const possibleUrlInTitleParam =
           parseUrlLikeStringIfPossible(titleParam);
@@ -182,6 +215,13 @@
         const encodedTitle = encodeURIComponent(title);
         const encodedUrl = encodeURIComponent(url);
 
+        // Clean up query params so that the user can go backwards without getting into a redirect loop:
+        history.replaceState(
+          null,
+          '',
+          `${window.location.origin}${window.location.pathname}`
+        );
+        // Redirect:
         window.location = `https://news.ycombinator.com/submitlink?t=${encodedTitle}&u=${encodedUrl}`;
       }
 
