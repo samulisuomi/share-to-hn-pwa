@@ -8,10 +8,7 @@
       property="og:description"
       content="A simple PWA (progressive web app) that adds an option for Hacker News in the sharing menu of your Android device."
     />
-    <meta
-      property="og:image"
-      content="https://user-images.githubusercontent.com/3490745/189866298-62ebab14-06b4-4a72-b649-ebc42398a1f2.png"
-    />
+    <meta property="og:image" content="img/intro.png" />
 
     <title>
       Share to HN – A PWA that gives you a sharing menu option for Hacker News
@@ -96,7 +93,7 @@
 
     <div style="overflow: auto; max-width: 100vw">
       <img
-        src="https://user-images.githubusercontent.com/3490745/189866298-62ebab14-06b4-4a72-b649-ebc42398a1f2.png"
+        src="img/intro.png"
         alt="Demonstration of how the sharing UX looks like on Chrome for Android"
         style="
           width: 80vw;
@@ -118,7 +115,7 @@
       >
       for us who often browse HN on their phone. That bookmarklet doesn't work
       in all mobile browsers, at least not in Chrome for Android. Furthermore,
-      this works from any app, not just in the browser.
+      this works from any app, not just the browser.
     </p>
 
     <p style="text-align: left">
@@ -139,6 +136,43 @@
         caniuse.com</a
       >.
     </p>
+
+    <details style="text-align: left; width: 100%"
+      ><summary style="cursor: pointer; font-weight: bold"
+        >Installation</summary
+      >
+      <p
+        >If you are on a browser that supports PWA, you have probably already
+        seen the popup for installation:</p
+      >
+      <img
+        src="img/instructions1.png"
+        alt="Demonstration of the installation popup on Chrome for Android"
+        style="width: 100%"
+      /><p
+        >If you dismissed the popup, you can look for the address bar or other
+        browser menus for the installation button:</p
+      >
+      <img
+        src="img/instructions2.png"
+        alt="Demonstration of the installation menu option on Chrome for Android"
+        style="width: 100%"
+      />
+      <p>More information:</p>
+      <ul>
+        <li>
+          <a href="https://support.google.com/chrome/answer/9658361?hl=en"
+            >Google Chrome Help</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://support.microsoft.com/en-us/topic/install-manage-or-uninstall-apps-in-microsoft-edge-0c156575-a94a-45e4-a54f-3a84846f6113"
+            >Microsoft Edge Support</a
+          >
+        </li>
+      </ul>
+    </details>
 
     <hr style="margin-top: 1.5rem; margin-bottom: 1.5rem" />
 
@@ -257,11 +291,13 @@
 
     h1,
     hr,
-    p {
+    p,
+    details {
       max-width: 512px;
     }
 
-    p {
+    p,
+    details {
       margin: 1rem 0;
     }
 
