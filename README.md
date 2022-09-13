@@ -12,13 +12,8 @@ In other words, it's a handy mobile alternative for the [official HN bookmarklet
 
 Prerequisites:
 
-1. ```
-   npm install -g serve
-   ```
-2. Install Prettier to your editor or shell
+1. Some local HTTP server. E.g. install Node and run `npm install -g serve`
+2. Install Prettier to your editor or shell.
 
 Run:
-
-```
-serve .
-```
+- `serve .`
